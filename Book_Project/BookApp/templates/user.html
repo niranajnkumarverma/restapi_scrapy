@@ -1,0 +1,52 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <span class="subheading">Welcome</span>
+                <h2 class="mb-4">{{ request.session.username }}</h2>
+                <p>Buy your favorite book.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            {% for item in products %}
+            <div class="col-md-6 col-lg-3 ftco-animate">
+                <div class="product">
+                    <a href="javascript:" class="img-prod text-center">
+                        <img class="img-fluid" src="{{ item.product_image.url }}" alt="Colorlib Template">
+                        <span class="status">30%</span>
+                        <div class="overlay"></div>
+                    </a>
+                    <div class="text py-3 pb-4 px-3 text-center">
+                        <h3><a href="#">{{ item.product_name }}</a></h3>
+                        <div class="d-flex">
+                            <div class="pricing">
+                                <p class="price">
+                                    <span class="price-sale"><i class="icon-inr"></i> {{ item.product_price }}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bottom-area d-flex px-3">
+                            <div class="m-auto d-flex">
+                                {% if request.session.status %}
+                                    <a href="{% url 'user_product_detail' pk=item.pk %}"
+                                        class="view d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="icon-search"></i></span>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}" class="view d-flex justify-content-center align-items-center text-center">Buy</a>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

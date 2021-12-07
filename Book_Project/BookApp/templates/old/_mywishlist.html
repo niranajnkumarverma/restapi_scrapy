@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% block content %}
+<section class="bg-light p-5">
+    <div class="container">
+        <h1>Your Wishlist</h1>
+        <div class="row pt-4 vh-100">
+            {% if total_wlist %}
+                {% for i in wishlists %}
+                <div class="col-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="{{i.product.product_image.url}}" alt="Card image" width=250px height=250px>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Item: {{ i.product.product_name }}</h5>
+                            <h5 class="card-title">Price: {{ i.product.product_price }}</h5>
+                            <p class="card-text">Desc: {{ i.product.product_desc }}</p>
+                            <a href="{% url 'user_product_detail' pk=i.product.pk %}" class="btn btn-sm btn-primary">View
+                                More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <h3>Your wishlist is empty.</h3>
+            {% endif %}
+        </div>
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends "main.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    
+    <div class="col-6">
+        <section class="bg-light p-5">
+        <h3>Total Products Added: {{ total_products }}</h3>
+        <div class="row pt-4">
+            <div class="container">
+            {% for item in products %}
+
+            <div class="col-4">
+                <div class="card mb-4 shadow-sm">
+                <img src="{{ item.product_image.url }}" style="height: 10rem;" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Item: {{ item.product_name }}</h5>
+                  <h5 class="card-title">Price: {{ item.product_price }}</h5>
+                  <p class="card-text">Desc: {{ item.product_desc }}</p>
+                  <a href="{% url 'product_detail' pk=item.pk %}" class="btn btn-primary">View detail</a>
+                </div>
+              </div>
+              </div>
+            </div>
+            
+            {% endfor %}
+        </div>
+        </section>
+    </div>
+    <div class="col-6">
+        <div class="card-body">
+            <h2>Add Products</h2>
+            <form class="row g-3" method="post" action="{% url 'add_product' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Product Name</label>
+                    <input class="form-control" id="product_name" type="text" name="product_name" type="text"
+                        placeholder="Product name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" name="product_author" class="form-control" id="author"
+                        placeholder="author name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" name="product_price" class="form-control" id="price" placeholder="Enter Price">
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Image</label>
+                    <div class="input-group">
+                        <label class="input-group-text" for="upload">Upload</label>
+                        <input type="file" class="form-control" name="product_image" id="upload">
+                      </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" name="product_desc" id="description" rows="3"></textarea>
+                </div>
+
+                <div class="msg">
+                    <span class="text-primary"></span>
+                </div>
+
+                {% if msg %}
+                <div class="msg">
+                    <span class="text-primary">{{ msg }}</span>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Add</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    {% endblock %}
+</body>
+</html>

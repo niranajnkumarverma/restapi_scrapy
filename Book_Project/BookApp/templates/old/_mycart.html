@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<section class="bg-light p-5">
+    <div class="container">
+        <h1>Items in your Cart</h1>
+        <div class="row pt-4 vh-100">
+            {% if total_cart %}
+            <div class="col-8">
+                <div class="row">
+                {% for i in cart %}
+                <div class="col-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="{{i.product.product_image.url}}" alt="Card image" width=250px
+                            height=250px>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Item: {{ i.product.product_name }}</h5>
+                            <form method="post" class="cart_qty_update" action="{%  url 'update-cart' i.product.pk %}">
+                            {% csrf_token %}
+                                <h5 class="card-title">Quantity: <input type="number" onchange="form.submit()" name="qty" value="{{ i.qty }}" min="1" max="10" /></h5>
+                                
+                        </form>
+                            <h5 class="card-title">Price: {{ i.product.product_price }}</h5>
+                            <p class="card-text">Desc: {{ i.product.product_desc }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    {% if request.session.status %}
+                                    <a href="{% url 'user_product_detail' pk=i.product.pk %}"
+                                        class="btn btn-sm btn-primary">View more</a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-sm btn-primary">Buy Now</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="col-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill">{{total_cart}}</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    {% for i in cart %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">{{i.product.product_name}}</h6>
+                            <small class="text-muted">{{i.product.product_desc}}</small>
+                        </div>
+                        <span class="text-muted">INR {{i.product.product_price}} * {{i.qty}} = {{ i.total }}</span>
+                    </li>
+                    {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (INR)</span>
+                        <strong>{{ cart_amt }}</strong>
+                      </li>
+                </ul>
+                <form name="pay" method="post" action="{% url 'pay' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="net_price" value="{{ cart_amt }}">
+                    <input type="submit" value="Pay INR {{ cart_amt }}" class="btn btn-primary">
+                </form>
+            </div>
+            {% else %}
+                <h3>Your cart is empty.</h3>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

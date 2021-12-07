@@ -1,0 +1,77 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<div class="hero-wrap hero-bread d-none" style="background-image: url({% static 'image/megamenu/1.jpg' %});height:20vh !important">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home</a></span> <span>Profile</span></p>
+                <h1 class="mb-0 bread">{{ request.session.username }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 ftco-animate">
+                <form class="billing-form" method="post" action="{% url 'user-profile' %}">
+                    {% csrf_token %}
+                    <h3 class="mb-4 billing-heading">My Profile</h3>
+                    <div class="row align-items-end">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fullname" class="form-label">Full Name</label>
+                                <input class="form-control" id="fullname" name="fullname" type="text"
+                            placeholder="Enter your full name" value="{{ request.session.username }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" disabled class="form-control" id="email"
+                        placeholder="name@example.com" value="{{ request.session.email }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="mobile" class="form-label">Mobile</label>
+                                <input class="form-control" id="mobile" name="mobile" type="text"
+                                    placeholder="Enter your mobile number" value="{{ request.session.mobile }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" required name="password" class="form-control" id="password" value="{{ request.session.pwd }}" placeholder="Enter Password">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" required name="address" id="address" placeholder="Address" rows="3">{{ request.session.address }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            {% if msg %}
+                            <div class="msg">
+                                <span class="text-primary">{{ msg }}</span>
+                            </div>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary mb-3"><i class="icon-save mr-2"></i>Update</button>
+                        </div>
+                    </div>
+                </form><!-- END -->
+            </div>
+            <div class="col-xl-5">
+                <div class="row mt-5 pt-3"></div>
+            </div> <!-- .col-md-8 -->
+        </div>
+    </div>
+</section> <!-- .section -->
+{% endblock %}

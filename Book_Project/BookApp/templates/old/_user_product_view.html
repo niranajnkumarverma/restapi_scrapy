@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends "main.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    
+    <section class="bg-light p-5">
+        <div class="container">
+            <h1>Found {{total_product}} books related to "{{tag}}"</h1>
+            <div class="row pt-4">
+                {% if total_product %}
+                {% for item in products %}
+                <div class="col-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ item.product_image.url }}" style="height: 15rem;" class="card-img-top"
+                            alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Item: {{ item.product_name }}</h5>
+                            <h5 class="card-title">Price: {{ item.product_price }}</h5>
+                            <p class="card-text">Desc: {{ item.product_desc }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    {% if request.session.status %}
+                                    <a href="{% url 'user_product_detail' pk=item.pk %}"
+                                        class="btn btn-sm btn-primary">View more</a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-sm btn-primary">Buy Now</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+                {% else %}
+                <h3>No book found</h3>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+    {% endblock %}
+</body>
+</html>

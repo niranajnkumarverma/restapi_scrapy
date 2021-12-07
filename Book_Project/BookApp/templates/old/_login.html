@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends "main.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <section class="jumbotron text-center">
+        <div class="container">
+        <div class="card-body">
+            <h2>Book Store Login</h2>
+            <form class="row g-3 form-signin" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="">
+                    <label for="email" class="form-label d-none">Email address</label>
+                    <input type="email" name="email" class="form-control" id="email"
+                        placeholder="name@example.com" required>
+                </div>
+
+                <div class="">
+                    <label for="password" class="form-label d-none">Password</label>
+                    <input type="password" required name="password" class="form-control" id="password" placeholder="Enter Password">
+                </div>
+
+                <!-- <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" rows="3"></textarea>
+                </div> -->
+                
+                {% if msg %}
+                <div class="msg">
+                    <span class="text-primary">{{ msg }}</span>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Login</button>
+                </div>
+            </form>
+
+        </div>
+        </div>
+    </section>
+    
+    {% endblock %}
+</body>
+</html>

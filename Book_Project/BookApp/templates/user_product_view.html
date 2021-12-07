@@ -1,0 +1,75 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<div class="hero-wrap hero-bread" style="background-image: url({% static 'image/megamenu/1.jpg' %});">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home</a></span> <span>Category</span></p>
+                <h1 class="mb-0 bread">You are looking for "{{tag}}" books</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center d-none">
+            <div class="col-md-10 mb-5 text-center">
+                <ul class="product-category">
+                    <li><a href="#" class="active">All</a></li>
+                    <li><a href="#">Sci-Fi</a></li>
+                    <li><a href="#">Programming</a></li>
+                    <li><a href="#">Fiction</a></li>
+                    <li><a href="#">Networking</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            {% if total_product %}
+            {% for item in products %}
+            <div class="col-md-6 col-lg-3 ftco-animate">
+                <div class="product">
+                    <a href="javascript:" class="img-prod text-center">
+                        <img class="img-fluid" src="{{ item.product_image.url }}"
+                            alt="Colorlib Template">
+                        <span class="status">30%</span>
+                        <div class="overlay"></div>
+                    </a>
+                    <div class="text py-3 pb-4 px-3 text-center">
+                        <h3><a href="javascript:">{{ item.product_name }}</a></h3>
+                        <div class="d-flex">
+                            <div class="pricing">
+                                <p class="price">
+                                    <span class="price-sale"><i class="icon-inr"></i> {{item.product_price}}</span></p>
+                            </div>
+                        </div>
+                        <div class="bottom-area d-flex px-3">
+                            <div class="m-auto d-flex">
+                                {% if request.session.status %}
+                                    <a href="{% url 'user_product_detail' pk=item.pk %}"
+                                        class="view d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="icon-search"></i></span>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}" class="view d-flex justify-content-center align-items-center text-center">Buy</a>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-md-12 ftco-animate">
+                <div class="text-center">
+                    <span class="icon-search-minus" style="font-size: 5rem"></span>
+                    <h3 class="mt-3">0 book found related to "{{tag}}"</h3>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

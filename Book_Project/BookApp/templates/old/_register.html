@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends "main.html" %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    
+    <div class="col-6"></div>
+    <div class="col-6">
+        <div class="card-body">
+            <h2 class="mb-3">Book Store Registration</h2>
+            <form class="row g-3 form-signup" method="post" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="m">
+                    <label for="fullname" class="form-label d-none">Full Name</label>
+                    <input class="form-control" id="fullname" name="fullname" type="text"
+                        placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="mb-">
+                    <label for="email" class="form-label d-none">Email address</label>
+                    <input type="email" name="email" class="form-control" id="email"
+                        placeholder="name@example.com" required>
+                </div>
+
+                <div class="mb-">
+                    <label for="mobile" class="form-label d-none">Mobile</label>
+                    <input class="form-control" id="mobile" name="mobile" type="text"
+                        placeholder="Enter your mobile number" required>
+                </div>
+
+                <div class="mb-">
+                    <label for="password" class="form-label d-none">Password</label>
+                    <input type="password" name="password" required class="form-control" id="password" placeholder="Enter Password">
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label d-none">Address</label>
+                    <textarea class="form-control" required name="address" id="address" placeholder="Address" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="isseller" value="False" id="isseller_no" checked>
+                        <label class="form-check-label" for="isseller_no">
+                          I'm a Customer
+                        </label>
+                      </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="isseller" value="True" id="isseller_yes">
+                        <label class="form-check-label" for="isseller_yes">
+                            I'm a Seller
+                        </label>
+                      </div>
+                </div>
+
+                {% if msg %}
+                <div class="msg">
+                    <span class="text-primary">{{ msg }}</span>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Register</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    {% endblock %}
+</body>
+</html>
